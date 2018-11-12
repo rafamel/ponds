@@ -1,22 +1,13 @@
-import PublicError, { ErrorTypes } from './public-error';
+import PublicError from './public-error';
 
-const ponds = {
-  default: {
-    data(data, req, res) {
-      res.send(data);
-    },
-    error(err, req, res) {
-      res.status(err.status).send(err.message);
-    }
-  }
-};
+const ponds = {};
 
 const transforms = {
   data(data) {
     return data;
   },
-  error(e) {
-    return e;
+  error(err) {
+    return err;
   }
 };
 
@@ -24,7 +15,7 @@ function createHandler(pond) {
   return [
     (req, res, next) => {
       // 404 Error
-      next(new PublicError(ErrorTypes.NotFound));
+      next(new PublicError('NotFound'));
     },
     (data, req, res, next) => {
       try {
@@ -54,8 +45,14 @@ export default {
   set(name, obj) {
     ponds[name] = obj;
   },
-  get(name) {
-    return createHandler(ponds[name]);
+  get(name, notFound = true) {
+    const pond = ponds[name];
+    if (!pond) throw Error(`Pond ${name} doesn't exist in ponds registry.`);
+    const handler = createHandler(pond);
+    return notFound ? handler : handler[1];
+  },
+  exists(name) {
+    return ponds.hasOwnProperty(name);
   },
   transform({ data, error }) {
     if (data) transforms.data = data;

@@ -9,11 +9,10 @@ function dispatch(cb) {
 }
 
 dispatch.all = function dispatchAll(obj) {
-  Object.keys(obj).forEach((key) => {
-    const cb = obj[key];
-    obj[key] = dispatch(cb);
-  });
-  return obj;
+  return Object.entries(obj).reduce((acc, [key, callback]) => {
+    acc[key] = dispatch(callback);
+    return acc;
+  }, {});
 };
 
 export default dispatch;
