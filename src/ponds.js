@@ -1,4 +1,5 @@
 import PublicError from './public-error';
+import errors from './errors';
 
 const ponds = {};
 
@@ -15,7 +16,7 @@ function createHandler(pond) {
   return [
     (req, res, next) => {
       // 404 Error
-      next(new PublicError('NotFound'));
+      next(new PublicError(errors.NotFound));
     },
     (data, req, res, next) => {
       try {
@@ -31,10 +32,10 @@ function createHandler(pond) {
       try {
         err = transforms.error(data) || data;
       } catch (e) {
-        err = new PublicError(null, { err: e });
+        err = new PublicError(undefined, { err: e });
       }
       if (!(err instanceof PublicError)) {
-        err = new PublicError(null, { err });
+        err = new PublicError(undefined, { err });
       }
       pond.error(err, req, res);
     }
