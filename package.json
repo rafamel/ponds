@@ -1,6 +1,6 @@
 {
   "name": "ponds",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Rafa Mel",
   "description": "Express middleware for better data and error handling per route",
   "keywords": [
