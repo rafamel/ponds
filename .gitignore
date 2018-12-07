@@ -3,7 +3,6 @@
 
 # Node, Frameworks, Editors #
 #############################
-package-lock.json
 _test.js
 build
 dist
