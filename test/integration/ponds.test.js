@@ -2,8 +2,6 @@ import app from './setup';
 import request from 'supertest';
 import ponds from '../../src';
 
-afterAll(() => app.close());
-
 test(`Setup ponds have been registered`, () => {
   expect(ponds.exists('one')).toBe(true);
   expect(ponds.exists('two')).toBe(true);
