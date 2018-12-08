@@ -20,14 +20,18 @@
     "lint:test": "nps lint.test",
     "lint:md": "nps lint.md",
     "lint:scripts": "nps lint.scripts",
+    "lint:typings": "nps lint.typings",
     "test": "nps test",
     "test:watch": "nps test.watch",
     "validate": "nps validate",
     "update": "nps update",
     "clean": "nps clean",
+    "docs": "nps docs",
     "nps": "nps",
     "jake": "jake"
   },
+  "main": "src/index.js",
+  "types": "./typings/index.d.ts",
   "license": "MIT",
   "homepage": "https://github.com/rafamel/ponds",
   "repository": {
@@ -72,9 +76,16 @@
     "onchange": "^4.1.0",
     "prettier": "^1.15.2",
     "shx": "^0.3.2",
-    "supertest": "^3.3.0"
+    "supertest": "^3.3.0",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
+    "typedoc": "^0.13.0",
+    "typedoc-plugin-external-module-name": "^1.1.3",
+    "typescript": "^3.2.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/express": "^4.16.0"
+  },
   "engines": {
     "node": ">=8.0.0"
   },
