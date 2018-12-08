@@ -2,6 +2,7 @@ import errors from './errors';
 
 export default class PublicError extends Error {
   constructor({ id, message, status } = errors.Server, { info, err } = {}) {
+    // TODO check validity of id, message, status
     super(message);
     this.id = id;
     this.status = status;

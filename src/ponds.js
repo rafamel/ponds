@@ -1,9 +1,9 @@
-import PublicError from './public-error';
+import PublicError from './PublicError';
 import errors from './errors';
 
 const ponds = {};
 
-const transforms = {
+export const transforms = {
   data(data) {
     return data;
   },
@@ -22,7 +22,7 @@ function createHandler(pond) {
       try {
         // Data delivery
         if (!(data instanceof Error)) {
-          return pond.data(transforms.data(data) || data, req, res);
+          return pond.data(transforms.data(data), req, res);
         }
       } catch (e) {
         data = e;
@@ -30,7 +30,7 @@ function createHandler(pond) {
       // Error handler
       let err;
       try {
-        err = transforms.error(data) || data;
+        err = transforms.error(data);
       } catch (e) {
         err = new PublicError(undefined, { err: e });
       }
@@ -43,8 +43,8 @@ function createHandler(pond) {
 }
 
 export default {
-  set(name, obj) {
-    ponds[name] = obj;
+  set(name, handler) {
+    ponds[name] = handler;
   },
   get(name, notFound = true) {
     const pond = ponds[name];
