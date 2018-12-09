@@ -8,7 +8,7 @@ const DOCS_DIR = 'docs';
 process.env.LOG_LEVEL = 'disable';
 module.exports = scripts({
   build: series([
-    'nps validate',
+    // 'nps validate',
     exit0(`shx rm -r ${OUT_DIR}`),
     `shx mkdir ${OUT_DIR}`,
     `jake fixpackage["${OUT_DIR}"]`,
