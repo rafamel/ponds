@@ -1,15 +1,24 @@
 import ponds, { transforms } from '~/ponds';
 
 describe(`ponds`, () => {
-  test(`sets pond + exists`, () => {
-    expect(() => ponds.set('foo', {})).not.toThrow();
+  test(`sets pond and exists`, () => {
+    expect(() => ponds.set('foo', {} as any)).not.toThrow();
     expect(ponds.exists('foo')).toBe(true);
     expect(ponds.exists('notfoo')).toBe(false);
   });
   test(`gets pond as array w/ not found handler, and as function wo/ it`, () => {
-    expect(Array.isArray(ponds.get('foo', true))).toBe(true);
-    expect(Array.isArray(ponds.get('foo'))).toBe(true);
-    expect(typeof ponds.get('foo', false)).toBe('function');
+    const pond1 = ponds.get('foo');
+    const pond2 = ponds.get('foo', true);
+    const pond3 = ponds.get('foo', false);
+
+    expect(Array.isArray(pond1)).toBe(true);
+    expect(pond1).toHaveLength(2);
+
+    expect(Array.isArray(pond2)).toBe(true);
+    expect(pond2).toHaveLength(2);
+
+    expect(Array.isArray(pond3)).toBe(true);
+    expect(pond3).toHaveLength(1);
   });
   test(`get throws when pond doesn't exist`, () => {
     expect(() => ponds.get('notfoo')).toThrowError();
@@ -22,13 +31,14 @@ describe(`transforms`, () => {
     expect(typeof transforms.error).toBe('function');
   });
   test(`default transforms return input`, () => {
-    const input = {};
-    expect(transforms.data(input)).toBe(input);
-    expect(transforms.error(input)).toBe(input);
+    const data = {};
+    const err = Error();
+    expect(transforms.data(data)).toBe(data);
+    expect(transforms.error(err)).toBe(err);
   });
   test(`ponds.transform() mutates transform`, () => {
-    const data = {};
-    const error = {};
+    const data = (a: any): any => a;
+    const error = (b: any): any => b;
 
     ponds.transform({ data });
     expect(transforms.data).toBe(data);

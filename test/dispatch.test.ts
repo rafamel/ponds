@@ -1,8 +1,10 @@
-import { dispatch } from '../src';
+import dispatch from '~/dispatch';
 
 test(`Dispatch returns a middleware, middleware returns a promise`, () => {
-  expect(typeof dispatch() === 'function');
-  expect(dispatch()(null, null, () => {})).toHaveProperty('then');
+  expect(typeof dispatch(() => {}) === 'function');
+  expect(dispatch(() => {})(null as any, null as any, () => {})).toHaveProperty(
+    'then'
+  );
 });
 
 test(`Dispatch middleware works`, async () => {
@@ -11,8 +13,8 @@ test(`Dispatch middleware works`, async () => {
   const middleware = dispatch(async (req, res) => {
     return [1, req, res];
   });
-  let res;
-  await middleware(2, 3, (ans) => (res = ans));
+  let res: any;
+  await middleware(2 as any, 3 as any, (ans) => (res = ans));
 
   expect(res[0]).toBe(1);
   expect(res[1]).toBe(2);
@@ -22,11 +24,11 @@ test(`Dispatch middleware works`, async () => {
 test(`Dispatch middleware throws on callback throw`, async () => {
   expect.assertions(2);
 
-  const middleware = dispatch(async (req, res) => {
+  const middleware = dispatch(async () => {
     throw Error('M');
   });
-  let res;
-  await middleware(2, 3, (ans) => (res = ans));
+  let res: any;
+  await middleware(2 as any, 3 as any, (ans) => (res = ans));
 
   expect(res).toBeInstanceOf(Error);
   expect(res.message).toBe('M');
@@ -47,10 +49,12 @@ test(`dispatch.all works`, async () => {
     }
   });
 
-  let one, two, three;
-  await middlewares.one(2, 3, (ans) => (one = ans));
-  await middlewares.two(3, 4, (ans) => (two = ans));
-  await middlewares.three(4, 5, (ans) => (three = ans));
+  let one: any;
+  let two: any;
+  let three: any;
+  await middlewares.one(2 as any, 3 as any, (ans) => (one = ans));
+  await middlewares.two(3 as any, 4 as any, (ans) => (two = ans));
+  await middlewares.three(4 as any, 5 as any, (ans) => (three = ans));
 
   expect(one).toEqual([1, 2, 3]);
   expect(two).toEqual([2, 3, 4]);

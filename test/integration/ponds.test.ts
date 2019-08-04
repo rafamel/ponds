@@ -1,6 +1,6 @@
 import app from './setup';
 import request from 'supertest';
-import ponds from '../../src';
+import ponds from '~/index';
 
 test(`Setup ponds have been registered`, () => {
   expect(ponds.exists('one')).toBe(true);
@@ -13,27 +13,27 @@ test(`Handlers work`, async () => {
   await request(app)
     .get('/one/data')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(200);
+    .then(({ status, body }) => {
+      expect(status).toBe(200);
       expect(body).toHaveProperty('one');
     });
   await request(app)
     .get('/one/error')
     .send()
-    .then(({ statusCode, body }) => {
+    .then(({ body }) => {
       expect(body).toHaveProperty('one');
     });
   await request(app)
     .get('/two/data')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(200);
+    .then(({ status, body }) => {
+      expect(status).toBe(200);
       expect(body).toHaveProperty('two');
     });
   await request(app)
     .get('/two/error')
     .send()
-    .then(({ statusCode, body }) => {
+    .then(({ body }) => {
       expect(body).toHaveProperty('two');
     });
 });
@@ -44,27 +44,27 @@ test(`Transforms work`, async () => {
   await request(app)
     .get('/one/error_transform')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(401);
+    .then(({ status }) => {
+      expect(status).toBe(401);
     });
   await request(app)
     .get('/one/error')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(500);
+    .then(({ status }) => {
+      expect(status).toBe(500);
     });
   await request(app)
     .get('/one/data')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(200);
+    .then(({ status, body }) => {
+      expect(status).toBe(200);
       expect(body.one).toHaveProperty('tData');
     });
   await request(app)
     .get('/two/data')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(200);
+    .then(({ status, body }) => {
+      expect(status).toBe(200);
       expect(body.two).toHaveProperty('tData');
     });
 });
@@ -75,23 +75,23 @@ test(`Default not found works`, async () => {
   await request(app)
     .get('/one/not')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(404);
-      expect(body.two).toBe('not_found');
+    .then(({ status, body }) => {
+      expect(status).toBe(404);
+      expect(body.two).toBe('NotFound');
     });
   await request(app)
     .get('/two/not')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(404);
-      expect(body.two).toBe('not_found');
+    .then(({ status, body }) => {
+      expect(status).toBe(404);
+      expect(body.two).toBe('NotFound');
     });
   await request(app)
     .get('/not')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(404);
-      expect(body.two).toBe('not_found');
+    .then(({ status, body }) => {
+      expect(status).toBe(404);
+      expect(body.two).toBe('NotFound');
     });
 });
 
@@ -101,23 +101,23 @@ test(`Error messages work (w/ both throw & return)`, async () => {
   await request(app)
     .get('/one/error')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(500);
-      expect(body.one).toBe('server');
+    .then(({ status, body }) => {
+      expect(status).toBe(500);
+      expect(body.one).toBe('Server');
     });
   await request(app)
     .get('/one/public_error')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(401);
-      expect(body.one).toBe('unauthorized');
+    .then(({ status, body }) => {
+      expect(status).toBe(401);
+      expect(body.one).toBe('Unauthorized');
     });
   await request(app)
     .get('/two/error')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(500);
-      expect(body.two).toBe('server');
+    .then(({ status, body }) => {
+      expect(status).toBe(500);
+      expect(body.two).toBe('Server');
     });
 });
 
@@ -127,13 +127,13 @@ test(`Data handler works`, async () => {
   await request(app)
     .get('/one/data')
     .send()
-    .then(({ statusCode, body }) => {
+    .then(({ body }) => {
       expect(body.one.tData).toBe('DATA');
     });
   await request(app)
     .get('/two/data')
     .send()
-    .then(({ statusCode, body }) => {
+    .then(({ body }) => {
       expect(body.two.tData).toBe('DATA');
     });
 });
@@ -144,15 +144,15 @@ test(`Returns error when transforms throws`, async () => {
   await request(app)
     .get('/two/data_transform_throw')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(401);
-      expect(body.two).toBe('unauthorized');
+    .then(({ status, body }) => {
+      expect(status).toBe(401);
+      expect(body.two).toBe('Unauthorized');
     });
   await request(app)
     .get('/two/error_transform_throw')
     .send()
-    .then(({ statusCode, body }) => {
-      expect(statusCode).toBe(500);
-      expect(body.two).toBe('server');
+    .then(({ status, body }) => {
+      expect(status).toBe(500);
+      expect(body.two).toBe('Server');
     });
 });

@@ -1,15 +1,15 @@
 import express from 'express';
-import ponds, { dispatch, PublicError, errors } from '../../src';
+import ponds, { dispatch, PublicError } from '~/index';
 
 ponds.transform({
   data(data) {
-    if (data === 'THROW') throw new PublicError(errors.Unauthorized);
+    if (data === 'THROW') throw new PublicError('Unauthorized');
     return { tData: data };
   },
   error(err) {
     if (err.message === 'THROW') throw new Error();
     if (err.message === 'TRANSFORM') {
-      return new PublicError(errors.Unauthorized, { err });
+      return new PublicError('Unauthorized', err);
     }
     return err;
   }
@@ -19,8 +19,10 @@ ponds.set('one', {
   data(data, req, res) {
     res.json({ status: 'success', one: data });
   },
-  error(err, req, res) {
-    res.status(err.first.status).json({ status: 'error', one: err.first.id });
+  error(err: PublicError, req, res) {
+    res
+      .status(err.root.kind.status)
+      .json({ status: 'error', one: err.root.kind.id });
   }
 });
 
@@ -28,8 +30,10 @@ ponds.set('two', {
   data(data, req, res) {
     res.json({ status: 'success', two: data });
   },
-  error(err, req, res) {
-    res.status(err.first.status).json({ status: 'error', two: err.first.id });
+  error(err: PublicError, req, res) {
+    res
+      .status(err.root.kind.status)
+      .json({ status: 'error', two: err.root.kind.id });
   }
 });
 
@@ -60,7 +64,7 @@ app.get(
 app.get(
   '/one/public_error',
   dispatch(async () => {
-    return new PublicError(errors.Unauthorized);
+    return new PublicError('Unauthorized');
   }),
   ponds.get('one', false)
 );

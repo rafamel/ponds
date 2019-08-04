@@ -59,7 +59,9 @@
     "@pika/plugin-standard-pkg": "^0.5.1",
     "@riseup/library": "0.2.0",
     "@riseup/tooling": "0.2.0",
+    "@types/express": "^4.17.0",
     "@types/jest": "^24.0.16",
+    "@types/supertest": "^2.0.8",
     "@zerollup/ts-transform-paths": "^1.7.3",
     "coveralls": "^3.0.5",
     "express": "^4.17.1",
@@ -71,7 +73,9 @@
     "supertest": "^4.0.2",
     "typescript": "^3.5.3"
   },
-  "dependencies": {},
+  "dependencies": {
+    "errorish": "^0.4.0"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "kpo pre-commit"
