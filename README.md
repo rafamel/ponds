@@ -1,16 +1,16 @@
 # Ponds
 
-[![Version](https://img.shields.io/github/package-json/v/rafamel/ponds.svg)](https://github.com/rafamel/ponds)
-[![Build Status](https://travis-ci.org/rafamel/ponds.svg)](https://travis-ci.org/rafamel/ponds)
-[![Coverage](https://img.shields.io/coveralls/rafamel/ponds.svg)](https://coveralls.io/github/rafamel/ponds)
-[![Dependencies](https://david-dm.org/rafamel/ponds/status.svg)](https://david-dm.org/rafamel/ponds)
-[![Vulnerabilities](https://snyk.io/test/npm/ponds/badge.svg)](https://snyk.io/test/npm/ponds)
-[![Issues](https://img.shields.io/github/issues/rafamel/ponds.svg)](https://github.com/rafamel/ponds/issues)
+[![Version](https://img.shields.io/npm/v/ponds.svg)](https://www.npmjs.com/package/ponds)
+[![Build Status](https://img.shields.io/travis/rafamel/ponds/master.svg)](https://travis-ci.org/rafamel/ponds)
+[![Coverage](https://img.shields.io/coveralls/rafamel/ponds/master.svg)](https://coveralls.io/github/rafamel/ponds)
+[![Dependencies](https://img.shields.io/david/rafamel/ponds.svg)](https://david-dm.org/rafamel/ponds)
+[![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/ponds.svg)](https://snyk.io/test/npm/ponds)
 [![License](https://img.shields.io/github/license/rafamel/ponds.svg)](https://github.com/rafamel/ponds/blob/master/LICENSE)
+[![Types](https://img.shields.io/npm/types/ponds.svg)](https://www.npmjs.com/package/ponds)
 
-<!-- markdownlint-disable MD036 -->
-**An express middleware for better data and error handling per route.**
-<!-- markdownlint-enable MD036 -->
+> An express middleware for better data and error handling per route.
+
+If you find it useful, consider [starring the project](https://github.com/rafamel/ponds) 💪 and/or following [its author](https://github.com/rafamel) ❤️ -there's more on the way!
 
 ## Install
 
